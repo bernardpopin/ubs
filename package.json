@@ -1,0 +1,51 @@
+{
+  "name": "ubs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "webpack",
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bernardpopin/ubs.git"
+  },
+  "author": "Bernard Popin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bernardpopin/ubs/issues"
+  },
+  "homepage": "https://github.com/bernardpopin/ubs#readme",
+  "dependencies": {
+    "axios": "0.14.0",
+    "babel-core": "6.9.1",
+    "babel-loader": "6.2.4",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-react": "6.5.0",
+    "css-loader": "0.25.0",
+    "express": "4.13.4",
+    "file-loader": "0.9.0",
+    "less": "3.0.0",
+    "less-loader": "4.0.4",
+    "react": "15.4.2",
+    "react-dom": "15.4.2",
+    "react-redux": "4.4.5",
+    "react-router": "2.8.1",
+    "react-router-redux": "4.0.5",
+    "redux": "3.6.0",
+    "redux-thunk": "2.1.0",
+    "style-loader": "0.13.1",
+    "styled-components": "3.0.1",
+    "webpack": "1.13.1",
+    "webpack-dev-middleware": "1.6.1"
+  },
+  "devDependencies": {
+    "babel-jest": "^18.0.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "jest": "^18.1.0",
+    "react-test-renderer": "^15.4.2"
+  }
+}
