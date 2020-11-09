@@ -1,8 +1,8 @@
 export const CoordinatorReducer = (state = {}, action) => {
    switch (action.type) {
-     case 'LOADED_COORDINATOR':
+     case 'LOADED_RESPONSIBLE':
        return {
-         coordinator: action.coordinator
+         responsible: action.responsible
        };
      default:
        return state;

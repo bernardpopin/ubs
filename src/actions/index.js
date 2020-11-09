@@ -13,24 +13,58 @@ export const store = createStore(
   applyMiddleware(thunk, middleware)
 );
 
-export function loadedCoordinator(coordinator) {
+export function loadedResponsible(responsible) {
   return {
-    type: 'LOADED_COORDINATOR',
-    coordinator
+    type: 'LOADED_RESPONSIBLE',
+    responsible
+  }
+}
+
+export function loadedCategory(category) {
+  return {
+    type: 'LOADED_CATEGORY',
+    category
+  }
+}
+
+export function savedToForm(value) {
+  return {
+    type: 'SAVED_TO_FORM',
+    value
   }
 }
 
 //thunks
 
-export function loadCoordinator() {
+export function loadResponsible() {
   return (dispatch) => {
-    console.log('[loadCoordinator]');
+    console.log('[loadResponsible]');
     doApiGet('5bcdd7992f00006300c855d5').then((data)=>{
-      console.log('loadedCoordinator', data.data);
-      const coordinator = [...data.data];
-      dispatch(loadedCoordinator(coordinator));
+      console.log('loadedResponsible', data.data);
+      const responsible = [...data.data];
+      dispatch(loadedResponsible(responsible));
     }).catch((error) => {
-      console.log('loadCoordinator error', error);
+      console.log('loadResponsible error', error);
     })
+  }
+}
+
+export function loadCategory() {
+  return (dispatch) => {
+    console.log('[loadCategory]');
+    doApiGet('5bcdd3942f00002c00c855ba').then((data)=>{
+      console.log('loadedCategory', data.data);
+      const category = [...data.data];
+      dispatch(loadedCategory(category));
+    }).catch((error) => {
+      console.log('loadCategory error', error);
+    })
+  }
+}
+
+export function saveToForm(value) {
+  return (dispatch) => {
+    console.log('[saveToForm]');
+    dispatch(savedToForm(value));
   }
 }

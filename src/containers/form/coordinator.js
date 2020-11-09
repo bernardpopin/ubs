@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { loadCoordinator } from '../../actions/index';
+import { loadResponsible, saveToForm } from '../../actions/index';
 
 
 class Coordinator extends React.Component {
@@ -14,29 +14,36 @@ class Coordinator extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadCoordinator();
+    this.props.loadResponsible();
   }
 
   handleChange(e) {
-    this.setState({ responsible: e.target.value }, () => {console.log('state', this.state)});
+    const keyName = e.target.name;
+    let value = e.target.value;
+    if (keyName === 'responsible') {
+      this.setState({ responsible: value });
+    }
+    const coordinator = this.props.form.coordinator || {};
+    const newCoordinator = Object.assign(coordinator, {[keyName]: value});
+    this.props.saveToForm({coordinator: newCoordinator});
   }
 
   render() {
-    const { coordinator } = this.props;
+    const { responsible } = this.props;
     return (
       <Container>
         <SectionTitle>Coordinator</SectionTitle>
         <Wrapper>
-          <Label>Responsible:</Label>
-          <Select value={this.state.responsible} onChange={this.handleChange.bind(this)}>
-            {coordinator && coordinator.map((option) => (
-              <option key={option.id} value={option.name}>{option.name}</option>
+          <Label>Responsible *</Label>
+          <Select value={this.state.responsible} name='responsible' onChange={this.handleChange.bind(this)}>
+            {responsible && responsible.map((option) => (
+              <option key={option.id} value={option.id}>{option.name} {option.lastname}</option>
             ))}
           </Select>
         </Wrapper>
         <Wrapper>
-          <Label>E-mail:</Label>
-          <Input placeholder='E-mail'/>
+          <Label>E-mail</Label>
+          <Input placeholder='E-mail' type="email" name='email'  onChange={this.handleChange.bind(this)} />
         </Wrapper>
       </Container>
     )
@@ -75,8 +82,6 @@ const Label = styled.div`
 
 const Select = styled.select`
   height: 40px;
-  border: 1px solid #dddddd;
-  color: #999999;
   margin-left: 15px;
   padding-left: 10px;
   display: flex;
@@ -84,12 +89,7 @@ const Select = styled.select`
 `
 
 const Input = styled.input`
-  &::-webkit-input-placeholder {
-    color: #999999;
-  }
   height: 38px;
-  border: 1px solid #dddddd;
-  color: #999999;
   padding: 0;
   margin-left: 15px;
   padding-left: 10px;
@@ -99,14 +99,18 @@ const Input = styled.input`
 
 const mapStateToProps = (state) => {
   return {
-    coordinator: state.CoordinatorReducer.coordinator
+    responsible: state.CoordinatorReducer.responsible,
+    form: state.FormReducer.form
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadCoordinator: () => {
-      dispatch(loadCoordinator())
+    loadResponsible: () => {
+      dispatch(loadResponsible())
+    },
+    saveToForm: (value) => {
+      dispatch(saveToForm(value))
     }
   }
 }

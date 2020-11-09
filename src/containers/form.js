@@ -1,20 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import styled from 'styled-components';
 import { store } from '../actions/index';
 
+import About from './form/about';
 import Coordinator from './form/coordinator';
+import When from './form/when';
 
-const Form = () => {
-  return (
-    <Container>
-      <Coordinator />
-      <Button onClick={() => store.dispatch(push('/success'))}>Publish event</Button>
-   </Container>
-  )
+class Form extends React.Component {
+  render() {
+    return (
+      <Container>
+        <About />
+        <Coordinator />
+        <When />
+        <Button onClick={() => {
+          store.dispatch(push('/success'))
+          console.log('form', this.props.form)
+        }}>Publish event</Button>
+     </Container>
+    )
+  }
 }
 
-const Container = styled.div`
+const Container = styled.form`
   width: 100%;
   max-width: 1000px;
   display: flex;
@@ -33,7 +43,15 @@ const Button = styled.button`
   background-color: #ffb348;
   border: 1px solid #ff9601;
   border-radius: 5px;
-  margin-top: 60px;
+  margin: 60px 0;
 `
+
+const mapStateToProps = (state) => {
+  return {
+    form: state.FormReducer.form
+  }
+}
+
+Form = connect(mapStateToProps, undefined)(Form);
 
 export default Form;
