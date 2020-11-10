@@ -13,8 +13,8 @@ class Form extends React.Component {
     super(props);
   }
 
-  handleSubmit (event) {
-    event.preventDefault();
+  handleSubmit (e) {
+    e.preventDefault();
     store.dispatch(push('/success'));
     console.log('Form output', this.props.form);
   }

@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { loadCategory, saveToForm } from '../../actions/index';
 
+const textareaMaxLength = 140;
+
 class About extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       showFee: false,
+      textareaCharLeft: textareaMaxLength
     };
   }
 
@@ -35,6 +38,12 @@ class About extends React.Component {
     this.props.saveToForm({[keyName]: value})
   }
 
+  countChar (e) {
+    const length = e.target.value.length;
+    const char = textareaMaxLength - length;
+    this.setState({textareaCharLeft: char});
+  }
+
   render() {
     const { category } = this.props;
     return (
@@ -46,7 +55,11 @@ class About extends React.Component {
         </Wrapper>
         <Wrapper>
           <Label>Description *</Label>
-          <Textarea placeholder='Write about your event, be creative' name='description' maxLength='140' required onChange={this.handleChange.bind(this)} />
+          <Textarea placeholder='Write about your event, be creative' name='description' maxLength={textareaMaxLength} required onKeyUp={this.countChar.bind(this)} onChange={this.handleChange.bind(this)} />
+        </Wrapper>
+        <Wrapper>
+          <Label></Label>
+          <CharLeft>{this.state.textareaCharLeft} characters left</CharLeft>
         </Wrapper>
         <Wrapper>
           <Label>Category</Label>
@@ -149,6 +162,15 @@ const Inline = styled.div`
   flex: 1;
   align-items: center;
 `
+
+const CharLeft = styled.div`
+  display: flex;
+  flex: 1;
+  margin-left: 15px;
+  font-size: 12px;
+  justify-content: flex-end;
+`
+
 
 const mapStateToProps = (state) => {
   return {
