@@ -31,8 +31,9 @@ class When extends React.Component {
   handleChange(e) {
     const keyName = e.target.name;
     let value = e.target.value;
-    if (e.target.type === 'number') {
-      value = Number(value);
+    if (e.target.type === 'number' && keyName === 'duration') {
+      const hourInMiliseconds = 3600000;
+      value = Number(value) * hourInMiliseconds;
     }
     if (keyName === 'only_date') {
       this.setState({only_date: value}, this.formatDate);
