@@ -7,10 +7,6 @@ import { loadResponsible, saveToForm } from '../../actions/index';
 class Coordinator extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      responsible: '',
-    };
   }
 
   componentDidMount() {
@@ -20,9 +16,6 @@ class Coordinator extends React.Component {
   handleChange(e) {
     const keyName = e.target.name;
     let value = e.target.value;
-    if (keyName === 'responsible') {
-      this.setState({ responsible: value });
-    }
     const coordinator = this.props.form.coordinator || {};
     const newCoordinator = Object.assign(coordinator, {[keyName]: value});
     this.props.saveToForm({coordinator: newCoordinator});
@@ -35,7 +28,8 @@ class Coordinator extends React.Component {
         <SectionTitle>Coordinator</SectionTitle>
         <Wrapper>
           <Label>Responsible *</Label>
-          <Select value={this.state.responsible} name='responsible' onChange={this.handleChange.bind(this)}>
+          <Select defaultValue="" name='responsible' required onChange={this.handleChange.bind(this)}>
+            <option value="" disabled hidden>Please Choose...</option>
             {responsible && responsible.map((option) => (
               <option key={option.id} value={option.id}>{option.name} {option.lastname}</option>
             ))}
@@ -43,7 +37,7 @@ class Coordinator extends React.Component {
         </Wrapper>
         <Wrapper>
           <Label>E-mail</Label>
-          <Input placeholder='E-mail' type="email" name='email'  onChange={this.handleChange.bind(this)} />
+          <Input placeholder='E-mail' type="email" name='email' onChange={this.handleChange.bind(this)} />
         </Wrapper>
       </Container>
     )

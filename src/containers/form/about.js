@@ -8,7 +8,6 @@ class About extends React.Component {
     super(props);
 
     this.state = {
-      category_id: '',
       showFee: false,
     };
   }
@@ -21,7 +20,6 @@ class About extends React.Component {
     const keyName = e.target.name;
     let value = e.target.value;
     if (keyName === 'category_id') {
-      this.setState({ category_id: value });
       this.props.saveToForm({[keyName]: Number(value)})
       return;
     }
@@ -48,11 +46,12 @@ class About extends React.Component {
         </Wrapper>
         <Wrapper>
           <Label>Description *</Label>
-          <Textarea placeholder='Write about your event, be creative' name='description' onChange={this.handleChange.bind(this)} />
+          <Textarea placeholder='Write about your event, be creative' name='description' maxLength='140' required onChange={this.handleChange.bind(this)} />
         </Wrapper>
         <Wrapper>
           <Label>Category</Label>
-          <Select value={this.state.category} name='category_id' onChange={this.handleChange.bind(this)}>
+          <Select defaultValue="" name='category_id' onChange={this.handleChange.bind(this)}>
+            <option value="" disabled hidden>Please Choose...</option>
             {category && category.map((option) => (
               <option key={option.id} value={option.id}>{option.name}</option>
             ))}
@@ -68,7 +67,9 @@ class About extends React.Component {
             <label htmlFor='paid'>Paid event</label>
             </Span>
           </RadioWrapper>
-          {this.state.showFee && <div><Input placeholder='Fee' type='number' name='event_fee' onChange={this.handleChange.bind(this)} /> <Span>$</Span></div>}
+          {this.state.showFee && <Inline>
+            <Input placeholder='Fee' type='number' name='event_fee' required onChange={this.handleChange.bind(this)} /> <Span>$</Span>
+          </Inline>}
         </Wrapper>
         <Wrapper>
           <Label>Reward</Label>
@@ -128,7 +129,7 @@ const Input = styled.input`
 `
 
 const Textarea = styled.textarea`
-  min-height: 100px;
+  min-height: 60px;
   margin-left: 15px;
   padding: 10px;
   display: flex;
@@ -141,6 +142,12 @@ const RadioWrapper = styled.div`
 
 const Span = styled.span`
   margin-left: 15px;
+`
+
+const Inline = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
 `
 
 const mapStateToProps = (state) => {

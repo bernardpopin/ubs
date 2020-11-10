@@ -9,16 +9,23 @@ import Coordinator from './form/coordinator';
 import When from './form/when';
 
 class Form extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleSubmit (event) {
+    event.preventDefault();
+    store.dispatch(push('/success'));
+    console.log('Form output', this.props.form);
+  }
+
   render() {
     return (
-      <Container>
+      <Container onSubmit={this.handleSubmit.bind(this)}>
         <About />
         <Coordinator />
         <When />
-        <Button onClick={() => {
-          store.dispatch(push('/success'))
-          console.log('form', this.props.form)
-        }}>Publish event</Button>
+        <Button type="submit">Publish event</Button>
      </Container>
     )
   }

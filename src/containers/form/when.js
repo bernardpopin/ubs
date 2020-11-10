@@ -6,6 +6,26 @@ import { saveToForm } from '../../actions/index';
 class When extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      only_date: '',
+      time: '',
+      time_ampm: ''
+    }
+  }
+
+  formatDate () {
+    const { only_date, time, time_ampm } = this.state;
+    if (only_date.length && time.length && time_ampm.length > 0) {
+      let [hours, minutes] = time.split(':');
+      if (hours === '12') {
+        hours = '00';
+      }
+      if (time_ampm === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+      const date = `${only_date}T${hours}:${minutes}`;
+      this.props.saveToForm({date: date})
+    }
   }
 
   handleChange(e) {
@@ -14,7 +34,19 @@ class When extends React.Component {
     if (e.target.type === 'number') {
       value = Number(value);
     }
-    this.props.saveToForm({[keyName]: value})
+    if (keyName === 'only_date') {
+      this.setState({only_date: value}, this.formatDate);
+      return;
+    }
+    if (keyName === 'time') {
+      this.setState({time: value}, this.formatDate);
+      return;
+    }
+    if (keyName === 'time_ampm') {
+      this.setState({time_ampm: value}, this.formatDate);
+      return;
+    }
+    this.props.saveToForm({[keyName]: value});
   }
 
   render() {
@@ -24,15 +56,15 @@ class When extends React.Component {
         <SectionTitle>When</SectionTitle>
         <Wrapper>
           <Label>Starts on *</Label>
-          <Input placeholder='dd/mm/yyyy' type='date' required onChange={this.handleChange.bind(this)} />
+          <Input placeholder='dd/mm/yyyy' type='date' name='only_date' required onChange={this.handleChange.bind(this)} />
           <Span>at</Span>
-          <Input placeholder='--:---' type='time' required onChange={this.handleChange.bind(this)} />
+          <Input placeholder='--:---' type='time' name='time' min='01:00' max='12:59' required onChange={this.handleChange.bind(this)} />
           <RadioWrapper>
             <div onChange={this.handleChange.bind(this)}>
-              <input type='radio' id='am' name='time_ampm' value='am' required />
+              <input type='radio' id='am' name='time_ampm' value='AM' required />
               <label htmlFor='am'>AM</label>
               <Span>
-              <input type='radio' id='pm' name='time_ampm' value='pm' required />
+              <input type='radio' id='pm' name='time_ampm' value='PM' required />
               <label htmlFor='pm'>PM</label>
               </Span>
             </div>
