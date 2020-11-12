@@ -3,8 +3,6 @@ import { store } from '../actions/index'
 
 const URL = 'http://www.mocky.io/v2/';
 
-//params must be object
-
 export function doApiPost (urlPath, params){
   console.log('doApiPost', urlPath, params);
   const url = URL+urlPath;
